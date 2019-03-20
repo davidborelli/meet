@@ -1,7 +1,7 @@
 import { MenuItem } from './../menu-item/menu-item.model';
 import { CartItem } from './cart-item.model';
 export class ShoppingCartService {
-  items: CartItem[]
+  items: CartItem[] = []
 
   clear() {
     this.items = []
@@ -19,7 +19,7 @@ export class ShoppingCartService {
   total(): number {
     return this.items
       .map(item => item.value())
-      .reduce((prev, value) => prev+value, 1);
+      .reduce((prev, value) => prev+value, 0);
   }
 
 }
