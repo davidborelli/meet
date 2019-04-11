@@ -5,11 +5,13 @@
 <section class="content">
   <section class="invoice">
 
+        <!--
         Válido? = {{form.valid | json}} <br>
         Valores = {{form.value | json}}
+        -->
 
         <!-- novalidate = não usar validação do navegador, e delega para o Angular -->
-        <form #form="ngForm" novalidate>
+        <form [formGroup]="orderForm" novalidate>
           <div class="row">
             <div class="col-xs-12">
               <h2 class="page-header">
@@ -18,26 +20,53 @@
             </div>
           </div>
 
-          <div class="row invoice-info">
+          <div class="row">
+            <div class="col-sm-9">
+              <p class="lead">Seus Dados:</p>
+            </div>
+            <div class="col-xs-12 com-sm-3">
+              <span class="help-block pull-right has-error-block" *ngIf="orderForm.hasError('emailsNotMatch')"><i class="fa fa-remove"></i> E-mails não conferem</span>
+            </div>
+            <div class="col-sm-6 col-xs-12">
+              <mt-input-container errorMessage="Campo obrigatório e com 5 caracteres" label="Nome">
+                <input class="form-control" formControlName="name"  autocomplete="off" placeholder="Nome">
+              </mt-input-container>
+            </div>
+
+            <div class="col-sm-3 col-xs-12">
+              <mt-input-container errorMessage="E-mail invalido" label="E-mail">
+                <input class="form-control" formControlName="email" autocomplete="off" placeholder="E-mail">
+              </mt-input-container>
+            </div>
+
+            <div class="col-sm-3 col-xs-12">
+              <mt-input-container errorMessage="E-mail invalido" label="E-mail">
+                <input class="form-control" formControlName="emailConfirmation" autocomplete="off" placeholder="Confirmacao do E-mail">
+              </mt-input-container>
+            </div>
+
+          </div>
+
+          <div class="row">
             <div class="col-xs-12">
               <p class="lead">Endereço de Entrega:</p>
             </div>
 
             <div class="col-sm-6 col-xs-12">
-              <mt-input-container errorMessage="Campo obrigatório e com 5 caracteres" label="CARALHO*************">
-                <input class="form-control" name="address" ngModel required minlength="5" autocomplete="off" placeholder="Endereço">
+              <mt-input-container errorMessage="Campo obrigatório e com 5 caracteres">
+                <input class="form-control" formControlName="address" autocomplete="off" placeholder="Endereço">
               </mt-input-container>
             </div>
 
             <div class="col-sm-3 col-xs-6">
               <mt-input-container errorMessage="Obrigatório e somente números" label="Numero">
-                <input class="form-control" name="number" pattern="^[0-9]*$" ngModel required autocomplete="off" placeholder="Número">
+                <input class="form-control" formControlName="number" autocomplete="off" placeholder="Número">
               </mt-input-container>
             </div>
 
             <div class="col-sm-3 col-xs-6">
               <mt-input-container>
-                <input type="text" class="form-control" name="optional" ngModel placeholder="Complemento">
+                <input type="text" class="form-control" formControlName="optionalAddress" placeholder="Complemento">
               </mt-input-container>
             </div>
             <!-- /.col -->
@@ -65,7 +94,7 @@
               <p class="lead">Formas de Pagamento:</p>
 
                 <div class="form-group">
-                   <mt-radio [options]="paymentOptions" name="paymentOption" ngModel required></mt-radio>
+                   <mt-radio [options]="paymentOptions" formControlName="paymentOption"></mt-radio>
                 </div>
 
             </div>
@@ -84,7 +113,7 @@
 
         <div class="row">
           <div class="col-xs-12">
-            <button class="btn btn-success pull-right" [disabled]="!form.valid || cartItems().length === 0"><i class="fa fa-credit-card"></i> Concluir Pedido
+            <button (click)="checkOrder(orderForm.value)" class="btn btn-success pull-right" [disabled]="!orderForm.valid || cartItems().length === 0"><i class="fa fa-credit-card"></i> Concluir Pedido
             </button>
           </div>
         </div>
