@@ -34,7 +34,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
   ],
   imports: [
     BrowserModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
     HttpModule,
     SharedModule.forRoot(),
     RouterModule.forRoot(ROUTES, {preloadingStrategy: PreloadAllModules})
